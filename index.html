@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {
+            color: red; /* Make the h1 text red */
+        }
+
+        tr {
+            background-color: yellowgreen; /* Set the background color of tr elements to green */
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Country Data</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>COVID-19 Country Data</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Total Cases</th>
+                    <th>Total Deaths</th>
+                    <th>Total Recovered</th>
+                </tr>
+            </thead>
+            <tbody id="covidData">
+                <!-- Data will be populated here dynamically using JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include Bootstrap JS and your custom JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Fetch data from the API
+        fetch("https://disease.sh/v3/covid-19/countries")
+            .then((response) => response.json())
+            .then((data) => {
+                const covidDataElement = document.getElementById("covidData");
+
+                data.forEach((country) => {
+                    const row = document.createElement("tr");
+                    const countryName = document.createElement("td");
+                    const totalCases = document.createElement("td");
+                    const totalDeaths = document.createElement("td");
+                    const totalRecovered = document.createElement("td");
+
+                    countryName.textContent = country.country;
+                    totalCases.textContent = country.cases;
+                    totalDeaths.textContent = country.deaths;
+                    totalRecovered.textContent = country.recovered;
+
+                    row.appendChild(countryName);
+                    row.appendChild(totalCases);
+                    row.appendChild(totalDeaths);
+                    row.appendChild(totalRecovered);
+
+                    covidDataElement.appendChild(row);
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+    </script>
+</body>
+</html>
